@@ -63,7 +63,6 @@ export default class AuthService {
             })
             .then(this._checkStatus)
             .then(response => response.json())
-            // .then(this.saveToLocalStorage())
     }
 
     _checkStatus = (response) => {
@@ -77,6 +76,9 @@ export default class AuthService {
         }
     }
 
+    /**
+     * DEPRECATED temporarily
+     */
     saveToLocalStorage = () => {
         localStorage.setItem('rentapp3store', JSON.stringify(store.get()));
     }

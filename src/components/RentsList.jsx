@@ -33,11 +33,9 @@ class RentsList extends Component {
     
     componentDidMount() {
         var me = this; // reference to this component
-        store.on('update', () => { me.forceUpdate(); }); // RE-RENDER component if store updated
+        store.on('update', () => { me.forceUpdate(); Auth.saveToLocalStorage();}); // RE-RENDER component if store updated
     
-        // if(Auth.isLogged()){
-            this.getRentsListFromAPI();
-        // }
+        this.getRentsListFromAPI();
     }
     
     componentWillReceiveProps(nextProps) {
