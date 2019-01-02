@@ -16,7 +16,9 @@ export default class AuthService {
         log.debug('AuthService.isLogged: '+token !== '' && token !== undefined && !!token && !this.isTokenExpired(token));
         return token !== '' && token !== undefined && !!token && !this.isTokenExpired(token); // handwaiving here
     }
-    
+    setToken = (token) => {
+        store.get().set('token', token); //store id_token to Freezer
+    }
     isTokenExpired = (token) => {
         try {
             const decoded = decode(token);
