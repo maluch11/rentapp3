@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8675ee6a-b6df-40ac-9068-b44fdd080fe6" name="Default" comment="Initial commit">
-      <change afterPath="$PROJECT_DIR$/src/components/Rent.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/config/labels.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/uniqueid.js" afterDir="false" />
+    <list default="true" id="8675ee6a-b6df-40ac-9068-b44fdd080fe6" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/HomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/LoginPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AuthService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AuthService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/PanelLeft.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PanelLeft.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/RentListPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RentsList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Rent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Rent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/RentsList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RentsList.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/labels.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/labels.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -28,8 +26,17 @@
       <file leaf-file-name="labels.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/config/labels.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+            <state relative-caret-position="229">
+              <caret line="13" column="29" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/config/config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="114">
+              <caret line="6" selection-start-line="6" selection-end-line="7" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -49,8 +56,8 @@
       <file leaf-file-name="PanelLeft.jsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/PanelLeft.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
-              <caret line="67" column="24" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="24" />
+            <state relative-caret-position="344">
+              <caret line="65" column="32" lean-forward="true" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="32" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -58,11 +65,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RentsList.jsx" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RentsList.jsx" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/RentsList.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1976">
-              <caret line="107" column="35" lean-forward="true" selection-start-line="107" selection-start-column="35" selection-end-line="107" selection-end-column="35" />
+            <state relative-caret-position="158">
+              <caret line="35" column="29" selection-start-line="35" selection-start-column="29" selection-end-line="35" selection-end-column="29" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
                 <element signature="e#3156#3223#0" />
@@ -71,14 +78,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Rent.jsx" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Rent.jsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/Rent.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="194" selection-start-line="194" selection-end-line="194" />
+            <state relative-caret-position="1349">
+              <caret line="92" column="18" selection-start-line="92" selection-start-column="18" selection-end-line="92" selection-end-column="18" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
                 <element signature="e#517#556#0" />
+                <element signature="e#2516#2535#0" />
                 <element signature="e#1189#1256#0" />
                 <element signature="e#1332#1348#0" />
                 <element signature="e#1761#1777#0" />
@@ -87,44 +95,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="uniqueid.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/store/uniqueid.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Login.jsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/Login.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="74" column="26" lean-forward="true" selection-start-line="74" selection-start-column="26" selection-end-line="74" selection-end-column="26" />
+            <state relative-caret-position="373">
+              <caret line="45" column="84" selection-start-line="45" selection-start-column="84" selection-end-line="45" selection-end-column="84" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Component1.jsx" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Component1.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="42" column="31" lean-forward="true" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="31" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="store.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/store/store.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="10" column="24" lean-forward="true" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -144,9 +122,13 @@
       <find>Component1</find>
       <find>sdlfk</find>
       <find>target</find>
+      <find>title</find>
+      <find>amount</find>
+      <find>url1</find>
     </findStrings>
     <replaceStrings>
       <replace>log.debug</replace>
+      <replace>selecturl</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -179,21 +161,22 @@
         <option value="$PROJECT_DIR$/src/Component2.jsx" />
         <option value="$PROJECT_DIR$/src/Component1.jsx" />
         <option value="$PROJECT_DIR$/src/index.js" />
-        <option value="$PROJECT_DIR$/src/AuthService.js" />
         <option value="$PROJECT_DIR$/src/components/HomePage.jsx" />
         <option value="$PROJECT_DIR$/src/components/Component1.jsx" />
         <option value="$PROJECT_DIR$/src/components/Component2.jsx" />
         <option value="$PROJECT_DIR$/src/components/LoginPage.jsx" />
         <option value="$PROJECT_DIR$/src/components/RentListPage.jsx" />
         <option value="$PROJECT_DIR$/src/config/translation.js" />
-        <option value="$PROJECT_DIR$/src/config/config.js" />
         <option value="$PROJECT_DIR$/src/utils/utils.js" />
         <option value="$PROJECT_DIR$/src/components/RentAdd.jsx" />
         <option value="$PROJECT_DIR$/src/App.jsx" />
-        <option value="$PROJECT_DIR$/src/config/labels.js" />
-        <option value="$PROJECT_DIR$/src/components/PanelLeft.jsx" />
-        <option value="$PROJECT_DIR$/src/components/RentsList.jsx" />
+        <option value="$PROJECT_DIR$/src/config/config.js" />
         <option value="$PROJECT_DIR$/src/components/Rent.jsx" />
+        <option value="$PROJECT_DIR$/src/AuthService.js" />
+        <option value="$PROJECT_DIR$/src/components/PanelLeft.jsx" />
+        <option value="$PROJECT_DIR$/src/config/labels.js" />
+        <option value="$PROJECT_DIR$/src/components/Login.jsx" />
+        <option value="$PROJECT_DIR$/src/components/RentsList.jsx" />
       </list>
     </option>
   </component>
@@ -241,6 +224,12 @@
               <item name="react-rentapp3" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="react-rentapp3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="react-rentapp3" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="react-rentapp3" type="b2602c69:ProjectViewProjectNode" />
@@ -309,7 +298,7 @@
       <workItem from="1544546709196" duration="3897000" />
       <workItem from="1544551926900" duration="3618000" />
       <workItem from="1544728571700" duration="941000" />
-      <workItem from="1545587308318" duration="26632000" />
+      <workItem from="1545587308318" duration="31219000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1546254647971</created>
@@ -318,11 +307,18 @@
       <option name="project" value="LOCAL" />
       <updated>1546254647971</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Reads and Read Pages">
+      <created>1546412023596</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1546412023596</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52273000" />
+    <option name="totallyTimeSpent" value="56860000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -335,17 +331,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="974" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2496977" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2496977" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4993954" weight="0.32943925" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50060457" side_tool="true" weight="0.32943925" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32905483" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="9" sideWeight="0.4993954" visible="true" weight="0.32943925" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.4993954" weight="0.32943925" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32905483" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32943925" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32943925" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -391,11 +388,12 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+    <MESSAGE value="Reads and Read Pages" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reads and Read Pages" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="3" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -648,13 +646,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AuthService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" column="29" selection-start-line="1" selection-start-column="29" selection-end-line="1" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/css/app.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
@@ -682,29 +673,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/store.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" column="24" lean-forward="true" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Component1.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
           <caret line="42" column="31" lean-forward="true" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="31" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Login.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="74" column="26" lean-forward="true" selection-start-line="74" selection-start-column="26" selection-end-line="74" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -716,10 +690,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/config/config.js">
+    <entry file="file://$PROJECT_DIR$/src/store/uniqueid.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+        <state relative-caret-position="285">
+          <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/store.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="4" lean-forward="true" selection-start-line="5" selection-start-column="4" selection-end-line="6" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -733,51 +714,81 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/uniqueid.js">
+    <entry file="file://$PROJECT_DIR$/src/config/config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+        <state relative-caret-position="114">
+          <caret line="6" selection-start-line="6" selection-end-line="7" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/config/labels.js">
+    <entry file="file://$PROJECT_DIR$/src/AuthService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/PanelLeft.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="67" column="24" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="24" />
+        <state relative-caret-position="247">
+          <caret line="31" column="4" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="4" />
           <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/RentsList.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1976">
-          <caret line="107" column="35" lean-forward="true" selection-start-line="107" selection-start-column="35" selection-end-line="107" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-            <element signature="e#3156#3223#0" />
+            <element signature="e#0#32#0" expanded="true" />
+            <element signature="e#242#344#0" />
+            <element signature="e#446#512#0" />
+            <element signature="e#468#544#0" />
+            <element signature="e#577#885#0" />
+            <element signature="e#371#747#0" />
+            <element signature="e#2129#2196#0" />
+            <element signature="e#2225#2471#0" />
+            <element signature="e#2507#3104#0" />
+            <element signature="e#3143#3497#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Rent.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="194" selection-start-line="194" selection-end-line="194" />
+        <state relative-caret-position="1349">
+          <caret line="92" column="18" selection-start-line="92" selection-start-column="18" selection-end-line="92" selection-end-column="18" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
             <element signature="e#517#556#0" />
+            <element signature="e#2516#2535#0" />
             <element signature="e#1189#1256#0" />
             <element signature="e#1332#1348#0" />
             <element signature="e#1761#1777#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/PanelLeft.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="65" column="32" lean-forward="true" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/config/labels.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="13" column="29" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Login.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="45" column="84" selection-start-line="45" selection-start-column="84" selection-end-line="45" selection-end-column="84" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/RentsList.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="35" column="29" selection-start-line="35" selection-start-column="29" selection-end-line="35" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+            <element signature="e#3156#3223#0" />
           </folding>
         </state>
       </provider>

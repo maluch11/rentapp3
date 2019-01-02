@@ -4,10 +4,12 @@ import {Page, Navbar, List, ListItem, Input, Fab, Icon} from 'framework7-react';
 import store from '../store/store';
 import Logger from '../logger';
 import config from "../config/config";
+import labels from "../config/labels";
 import AuthService from '../AuthService';
 
 const Auth = new AuthService(); // Authentication service
 const log = Logger({level: config.loglevel}); // Logger
+
 class RentsList extends Component {
     constructor(props) {
         super(props);
@@ -31,11 +33,11 @@ class RentsList extends Component {
     
     componentDidMount() {
         var me = this; // reference to this component
-        store.on('update', function(){ me.forceUpdate(); }); // RE-RENDER component if store updated
+        store.on('update', () => { me.forceUpdate(); }); // RE-RENDER component if store updated
     
-        if(Auth.isLogged()){
+        // if(Auth.isLogged()){
             this.getRentsListFromAPI();
-        }
+        // }
     }
     
     componentWillReceiveProps(nextProps) {
@@ -57,10 +59,10 @@ class RentsList extends Component {
     getRentsListFromAPI = () => {
         this.$f7.preloader.show(); //preloader show - working way
         
-        const url1 = config.apihost + ':' + config.apiport + '/api/rentapp_rents/';
-        log.debug(url1); //creting url
+        const selecturl = config.apihost + ':' + config.apiport + '/api/rentapp_rents/';
+        log.debug(selecturl); //creting url
         
-        return Auth.fetch(url1, {
+        return Auth.fetch(selecturl, {
             method: 'GET',
         })
             .then(
@@ -112,7 +114,7 @@ class RentsList extends Component {
     render() {
         return (
             <Page hideToolbarOnScroll hideNavbarOnScroll ptr onPtrRefresh={this.loadMore}>
-                <Navbar title="Czynsz" backLink="Back" />
+                <Navbar title={labels.en.rentslisttitle} backLink={labels.en.back} />
                 <List mediaList virtualList
                       virtualListParams={{ items: store.get().rentslist, height: this.$theme.ios ? 63 : 73}}>
                     <ul>
@@ -120,10 +122,9 @@ class RentsList extends Component {
                             <ListItem
                                 key={index}
                                 mediaItem
-                                // link={'/rent/'+JSON.stringify(item)}
                                 link={'/rent/'+item.rentapp_rentid}
                                 title={<Input type='date' value={this.dtformat(item.dt)} disabled />}
-                                badge={item.stat==='paid' ? 'ok' : 'do zapłaty'}
+                                badge={item.stat==='paid' ? labels.en.paid : labels.en.due}
                                 badgeColor={item.stat==='paid' ? 'green' : 'red'}
                                 subtitle={item.kwota}
                             />

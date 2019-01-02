@@ -6,6 +6,12 @@ module.exports = {
         'dt': "Data",
         'ok': "OK",
         'create': "Dodaj",
+        'delete': "Usun",
+        'edit': "Edytuj",
+        'password': "Hasło",
+        'username': "Login",
+        'logininfo': 'Problemy z zalogowaniem? Zadzwon do wlasciciela mieszkania.',
+        'loginbt': 'Zaloguj',
 
         
         //STATUS
@@ -13,8 +19,16 @@ module.exports = {
         'selectlabel': 'wybierz...',
         'paid': "Zaplacone",
         'due': "Do zaplaty",
+        'tocalculate': "Do obliczenia",
         
-        'rentaddtitle' : 'Dodaj Czynsz',
-        'rentaddamount': "Kwota",
+        
+        //RENTSLIST
+        'rentslisttitle': "Czynsze",
+        
+        //RENT
+        'renttitle' : 'Czynsz',
+        'rentamount': "Kwota",
+        'rentdt': "Data",
+        'rentid': "ID",
     }
 };

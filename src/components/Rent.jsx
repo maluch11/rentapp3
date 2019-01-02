@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
-import {Page, Navbar, Link, List, ListItem, BlockTitle, NavTitle, NavLeft, ListButton,ListInput} from 'framework7-react';
+import {Page, Navbar, List, ListButton,ListInput} from 'framework7-react';
 
 import store from '../store/store';
 import Logger from '../logger';
 import config from "../config/config";
 import labels from "../config/labels";
+import AuthService from '../AuthService';
 import uniqueid from "../store/uniqueid";
 
 const log = Logger({level: config.loglevel}); // Logger
+const Auth = new AuthService(); // Authentication service
 class Rent extends Component {
     constructor(props) {
         super(props);
@@ -38,7 +40,7 @@ class Rent extends Component {
             }
         } else {
             //EDIT RENT
-            this.state = store.get().rentslist.find(x => x.rentapp_rentid == props.rentid); //get edited object
+            this.state = store.get().rentslist.find(x => x.rentapp_rentid === props.rentid); //get edited object
         }
     }
     
@@ -82,7 +84,19 @@ class Rent extends Component {
             //     let d = b.dt.replace(/\D/g, '');
             //     return d - c;
             // });
+            
             //todo call API
+            let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_rent/'+this.state.rentapp_rentid;
+            log.debug(inserturl); //creting url
+            Auth.fetch(inserturl,{
+                method: 'POST',
+                body: JSON.stringify({
+                    dt: this.state.dt,
+                    kwota: this.state.kwota,
+                    stat: this.state.stat,
+                })
+            })
+            
         } else {
             //UPDATE RENT
             log.debug("UPDATE RENT")
@@ -144,7 +158,7 @@ class Rent extends Component {
     render() {
         return (
             <Page hideToolbarOnScroll hideNavbarOnScroll>
-                <Navbar title={labels.en.rentaddtitle} backLink={labels.en.back}/>
+                <Navbar title={labels.en.renttitle} backLink={labels.en.back}/>
                 <List form>
                     <ListInput
                         label={labels.en.dt}
@@ -155,7 +169,7 @@ class Rent extends Component {
                         }}
                     />
                     <ListInput
-                        label={labels.en.rentaddamount}
+                        label={labels.en.rentamount}
                         type="text"
                         required
                         validate

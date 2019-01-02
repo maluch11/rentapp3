@@ -61,9 +61,9 @@ class Component1 extends Component {
                     <BlockHeader>Menu</BlockHeader>
                     <List>
                         <ListItem link="/" title="Home" view="#main-view" panelClose />
-                        <ListItem link="/c1/" title="Component1" view="#main-view" panelClose />
-                        <ListItem link="/c2/" title="Component2" view="#main-view" panelClose />
-                        <ListItem link="/rentsList/" title="Rents" view="#main-view" panelClose />
+                        {/*<ListItem link="/c1/" title="Component1" view="#main-view" panelClose />*/}
+                        {/*<ListItem link="/c2/" title="Component2" view="#main-view" panelClose />*/}
+                        <ListItem link="/rentsList/" title={labels.en.rentslisttitle} view="#main-view" panelClose />
                         {/*<ListItem link="/rent/" title={labels.en.rentaddtitle} view="#main-view" panelClose />*/}
                     </List>
                     <BlockFooter>Menu Footer</BlockFooter>

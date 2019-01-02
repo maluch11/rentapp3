@@ -1,6 +1,7 @@
 import React from 'react';
 import {Page, List, LoginScreenTitle, ListInput, ListButton, BlockFooter } from 'framework7-react';
 import config from "../config/config";
+import labels from "../config/labels";
 import store from '../store/store';
 import Logger from '../logger';
 
@@ -23,7 +24,7 @@ export default class extends React.Component {
                 <LoginScreenTitle>Application</LoginScreenTitle>
                 <List form>
                     <ListInput
-                        label="Username"
+                        label={labels.en.username}
                         type="text"
                         placeholder="Your username"
                         value={this.state.username}
@@ -32,7 +33,7 @@ export default class extends React.Component {
                         }}
                     />
                     <ListInput
-                        label="Password"
+                        label={labels.en.password}
                         type="password"
                         placeholder="Your password"
                         value={this.state.password}
@@ -42,12 +43,13 @@ export default class extends React.Component {
                     />
                 </List>
                 <List>
-                    <ListButton onClick={this.signIn.bind(this)}>Sing-in</ListButton>
-                    <BlockFooter>Some text about login information.<br />Lorem ipsum dolor sit amet, consectetur adipiscing elit.</BlockFooter>
+                    <ListButton onClick={this.signIn.bind(this)}>{labels.en.loginbt}</ListButton>
+                    <BlockFooter>{labels.en.logininfo}</BlockFooter>
                 </List>
             </Page>
         )
     }
+    
     signIn() {
         const self = this;
         //todo call-authorize-endpoint, if response 200 then save token and profile in store and set isLogged in store
@@ -69,13 +71,10 @@ export default class extends React.Component {
                 password: password,
             })
         }).then(res => {
-            store.get().set(self.state); //TEST PURPOSE
+            store.get().set(self.state); //todo DELETE - ONLY TEST PURPOSE
             store.get().set('token',res.token);
             store.get().set('isLogged',true);
             router.back();
-            
-            // this.setToken(res.token); // Setting the token in localStorage and Freezer (Store)
-            // return Promise.resolve(res);
         }).catch(() => {
             log.debug("error");
         });
