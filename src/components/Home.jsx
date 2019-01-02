@@ -8,7 +8,7 @@ import config from "../config/config";
 let refreshNo = 0;
 
 const log = Logger({level: config.loglevel}); // Logger
-class HomePage extends Component {
+class Home extends Component {
     constructor(props) {
         super(props);
     }
@@ -84,4 +84,4 @@ class HomePage extends Component {
     }
 }
 
-export default HomePage;
+export default Home;

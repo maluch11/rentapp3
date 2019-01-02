@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Page, Navbar, Link, List, ListItem, BlockTitle, NavTitle, NavLeft, Input} from 'framework7-react';
+import {Page, Navbar, List, ListItem, Input, Fab, Icon} from 'framework7-react';
 
 import store from '../store/store';
 import Logger from '../logger';
@@ -8,31 +8,34 @@ import AuthService from '../AuthService';
 
 const Auth = new AuthService(); // Authentication service
 const log = Logger({level: config.loglevel}); // Logger
-class RentListPage extends Component {
+class RentsList extends Component {
     constructor(props) {
         super(props);
         
-        this.state = {
-            inputValue:
-                [
-                    {
-                        dt: '',
-                        kwota: 0,
-                        stat: ''
-                    }
-                ],
+        if(store.get().rentslist === undefined){
+            // SET EMPTY/DUMMY rentlist store
+            store.get().set('rentslist', [
+                        {
+                            dt: '',
+                            kwota: 0,
+                            stat: '',
+                            rentapp_rentid: '',
+                        }
+                    ]);
         }
     }
     
     componentWillMount() {
-        if(Auth.isLogged()){
-            this.getRentsList();
-        }
+
     }
     
     componentDidMount() {
         var me = this; // reference to this component
         store.on('update', function(){ me.forceUpdate(); }); // RE-RENDER component if store updated
+    
+        if(Auth.isLogged()){
+            this.getRentsListFromAPI();
+        }
     }
     
     componentWillReceiveProps(nextProps) {
@@ -44,28 +47,25 @@ class RentListPage extends Component {
     }
     
     componentDidUpdate(prevProps, prevState) {
-    
+
     }
     
     componentWillUnmount() {
     
     }
     
-    getRentsList = () => {
+    getRentsListFromAPI = () => {
         this.$f7.preloader.show(); //preloader show - working way
         
         const url1 = config.apihost + ':' + config.apiport + '/api/rentapp_rents/';
-        log.debug(url1);
+        log.debug(url1); //creting url
         
         return Auth.fetch(url1, {
             method: 'GET',
         })
             .then(
                 (res) => {
-                    log.debug('rentlistpage.getRentList.RESULT:');
-                    log.debug(res);
-                    
-                    if (res.success !== 'undefined' && res.success !== '' && res.success !== false) {
+                    if (res.meta.success === true){
                         let r = res.data;
                         /**
                          * SORT FUNCTION DESCENDING
@@ -75,26 +75,24 @@ class RentListPage extends Component {
                             let d = b.dt.replace(/\D/g, '');
                             return d - c;
                         });
-                        this.setState({inputValue: r});
+                        
+                        // STORE UPDATE IF NOT EQUAL
+                        store.get().set('rentslist', r);
                     }
                     this.$f7.preloader.hide();
-                    let me = this;
-                    // this.setToken(res.token); // Setting the token in localStorage
-                    me.forceUpdate();
                     return Promise.resolve(res);
-                    
                 },
                 (error) => {
-                    this.setState({
-                        inputValue: [
-                            {
-                                dt: '',
-                                kwota: 0,
-                                stat: ''
-                            }
-                        ]
-                    });
-                    log.debug('RentListPage.getRentList.ERROR: ' + error.message);
+                    // SET EMPTY/DUMMY rentlist store
+                    store.get().set('rentslist', [
+                        {
+                            dt: '',
+                            kwota: 0,
+                            stat: '',
+                            rentapp_rentid: '',
+                        }
+                    ]);
+                    log.debug('RentsList.getRentList.ERROR: ' + error.message);
                     this.$f7.preloader.hide();
                     return false;
                 }
@@ -106,18 +104,24 @@ class RentListPage extends Component {
         return dt;
     };
     
+    loadMore = (event, done) => {
+        this.getRentsListFromAPI();
+        done();
+    }
+    
     render() {
         return (
-            <Page hideToolbarOnScroll hideNavbarOnScroll>
+            <Page hideToolbarOnScroll hideNavbarOnScroll ptr onPtrRefresh={this.loadMore}>
                 <Navbar title="Czynsz" backLink="Back" />
                 <List mediaList virtualList
-                      virtualListParams={{ items: this.state.inputValue, height: this.$theme.ios ? 63 : 73}}>
+                      virtualListParams={{ items: store.get().rentslist, height: this.$theme.ios ? 63 : 73}}>
                     <ul>
-                        {this.state.inputValue.map((item, index) => (
+                        {store.get().rentslist.map((item, index) => (
                             <ListItem
                                 key={index}
                                 mediaItem
-                                // link="#"
+                                // link={'/rent/'+JSON.stringify(item)}
+                                link={'/rent/'+item.rentapp_rentid}
                                 title={<Input type='date' value={this.dtformat(item.dt)} disabled />}
                                 badge={item.stat==='paid' ? 'ok' : 'do zapłaty'}
                                 badgeColor={item.stat==='paid' ? 'green' : 'red'}
@@ -126,9 +130,12 @@ class RentListPage extends Component {
                         ))}
                     </ul>
                 </List>
+                <Fab position="center-bottom" slot="fixed" color="blue" href='/rent/'>
+                    <Icon ios="f7:add" md="material:add"></Icon>
+                </Fab>
             </Page>
         );
     }
 }
 
-export default RentListPage;
+export default RentsList;

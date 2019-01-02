@@ -5,6 +5,7 @@ import store from '../store/store';
 import Logger from '../logger';
 import Component2 from "./Component2";
 import config from "../config/config";
+import labels from '../config/labels';
 
 let refreshNo = 0;
 
@@ -62,7 +63,8 @@ class Component1 extends Component {
                         <ListItem link="/" title="Home" view="#main-view" panelClose />
                         <ListItem link="/c1/" title="Component1" view="#main-view" panelClose />
                         <ListItem link="/c2/" title="Component2" view="#main-view" panelClose />
-                        <ListItem link="/rentListPage/" title="Rents" view="#main-view" panelClose />
+                        <ListItem link="/rentsList/" title="Rents" view="#main-view" panelClose />
+                        {/*<ListItem link="/rent/" title={labels.en.rentaddtitle} view="#main-view" panelClose />*/}
                     </List>
                     <BlockFooter>Menu Footer</BlockFooter>
                 </Block>

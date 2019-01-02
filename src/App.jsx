@@ -7,11 +7,12 @@ import logo from './img/logo.svg';
 import './css/app.css';
 import Component1 from "./components/Component1";
 import Component2 from "./components/Component2";
-import LoginPage from "./components/LoginPage";
-import HomePage from "./components/HomePage";
+import LoginPage from "./components/Login";
+import Home from "./components/Home";
 import LeftPanel from "./components/PanelLeft";
 import store from './store/store';
-import RentListPage from "./components/RentListPage";
+import RentsList from "./components/RentsList";
+import Rent from './components/Rent';
 
 const f7params = {
     name: 'My App',
@@ -20,7 +21,7 @@ const f7params = {
     routes: [
         {
             path: '/',
-            component: HomePage,
+            component: Home,
         },
         {
             path: '/login/',
@@ -39,9 +40,18 @@ const f7params = {
             component: LeftPanel,
         },
         {
-            path: '/rentListPage/',
-            component: RentListPage,
+            path: '/rentsList/',
+            component: RentsList,
         },
+        {
+            path: '/rent/',
+            component: Rent,
+        },
+        {
+            path: '/rent/:rentid',
+            component: Rent,
+        },
+        
     ],
 };
 
@@ -61,7 +71,7 @@ class App extends Component {
               <View id="left-panel" url={'/panel-left/'} /*user={this.state.user}*/ />
           </Panel>
           <View id="main-view" url={'/'} main className="ios-edges">
-              <HomePage/>
+              <Home/>
           </View>
       </F7App>
     );

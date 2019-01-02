@@ -8,4 +8,5 @@ module.exports = {
     // 'apiport': '3001',
     
     'loglevel': 'debug',
+    'language': 'en',
 };
