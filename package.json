@@ -1,6 +1,6 @@
 {
-  "name": "react-test-freezer",
-  "version": "0.1.0",
+  "name": "react-rentapp3",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "framework7": "^3.6.1",

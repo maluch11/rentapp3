@@ -10,38 +10,32 @@ import uniqueid from "../store/uniqueid";
 
 const log = Logger({ level: config.loglevel }); // Logger
 const Auth = new AuthService(); // Authentication service
-class Rent extends Component {
+
+class Read extends Component {
+    emptyListElement = () => {
+        let emptyListElement = {
+            dt: this.getNow(),
+            cw: 0,
+            zw: 0,
+            prad: 0,
+            prad_oplata: -1,
+            stat: 'due',
+            rentapp_readid: '',
+        };
+        return emptyListElement;
+    }
+
     constructor(props) {
         super(props);
-        // log.debug('Rent, props.rentid: ' + props.rentid);
-        // #region just for testing
-        // log.debug(JSON.parse(props.rentid));
-        //
-        // let rentslist = store.get().rentslist;
-        // log.debug(rentslist);
-        //
-        // let obj = rentslist.find(x => x.rentapp_rentid == JSON.parse(props.rentid).rentapp_rentid);
-        // let idx = rentslist.findIndex(x => x.rentapp_rentid == JSON.parse(props.rentid).rentapp_rentid); //working
-        //
-        // log.debug(obj);
-        // log.debug(idx);
-        //
-        //
-        // let indx = rentslist.indexOf(JSON.parse(props.rentid));
-        // log.debug('index in table: '+indx);
-        // #endregion   
 
-        if (props.rentid === undefined || props.rentid === 'null' || props.rentid === null || props.rentid === '') {
+        log.debug(props.readid);
+
+        if (props.readid === undefined || props.readid === 'null' || props.readid === null || props.readid === '') {
             //NEW RENT
-            this.state = {
-                dt: this.getFirstDayNextMonth(),
-                kwota: 900,
-                stat: 'due',
-                rentapp_rentid: '',
-            }
+            this.state = this.emptyListElement();
         } else {
             //EDIT RENT
-            this.state = store.get().rentslist.find(x => x.rentapp_rentid === props.rentid); //get edited object
+            this.state = store.get().ReadsList.find(x => x.rentapp_readid === props.readid); //get edited object
         }
     }
 
@@ -69,40 +63,46 @@ class Rent extends Component {
     }
 
     clickMeHandle = () => {
-        if (this.state.rentapp_rentid === '') {
+        if (this.state.rentapp_readid === '') {
 
-            //NEW RENT
-            log.debug("NEW RENT")
+            //NEW READ
+            log.debug("NEW READ")
 
-            this.setState({ 'rentapp_rentid': uniqueid.getUniqueid() }) //generate unique id
-            store.get().rentslist.unshift(this.state) //add new record to store
+            this.setState({ 'rentapp_readid': uniqueid.getUniqueid() }) //generate unique id
+            store.get().ReadsList.unshift(this.state) //add new record to store
             
-            let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_rent/' + this.state.rentapp_rentid; //call API - create url
+            let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_read/' + this.state.rentapp_readid; //call API - create url
             log.debug(inserturl);
             Auth.fetch(inserturl, { //call API - POST
                 method: 'POST',
                 body: JSON.stringify({
                     dt: this.state.dt,
-                    kwota: this.state.kwota,
+                    cw: this.state.cw,
+                    zw: this.state.zw,
+                    prad: this.state.prad,
+                    prad_oplata: this.state.prad_oplata,
                     stat: this.state.stat,
                 })
             })
 
         } else {
 
-            //UPDATE RENT
-            log.debug("UPDATE RENT")
+            //UPDATE READ
+            log.debug("UPDATE READ")
             
-            let idx = store.get().rentslist.findIndex(x => x.rentapp_rentid === this.state.rentapp_rentid) //get index of record in store
-            store.get().rentslist[idx].set(this.state) //update store
+            let idx = store.get().ReadsList.findIndex(x => x.rentapp_readid === this.state.rentapp_readid) //get index of record in store
+            store.get().ReadsList[idx].set(this.state) //update store
 
-            let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_rent/' + this.state.rentapp_rentid; //call API - create url
+            let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_read/' + this.state.rentapp_readid; //call API - create url
             log.debug(inserturl);
             Auth.fetch(inserturl, { //call API - POST
                 method: 'POST',
                 body: JSON.stringify({
                     dt: this.state.dt,
-                    kwota: this.state.kwota,
+                    cw: this.state.cw,
+                    zw: this.state.zw,
+                    prad: this.state.prad,
+                    prad_oplata: this.state.prad_oplata,
                     stat: this.state.stat,
                 })
             })
@@ -161,7 +161,7 @@ class Rent extends Component {
 
     render() {
         return (<Page hideToolbarOnScroll hideNavbarOnScroll >
-                    <Navbar title={labels.en.renttitle} backLink={labels.en.back} />
+                    <Navbar title={labels.en.readtitle} backLink={labels.en.back} />
                     <List form>
                         <ListInput
                             label={labels.en.dt}
@@ -174,13 +174,35 @@ class Rent extends Component {
                             }
                         />
                         <ListInput
-                            label={labels.en.rentamount}
+                            label={labels.en.readcw}
                             type="text"
                             required validate pattern="[0-9]*"
-                            clearButton defaultValue={this.state.kwota}
+                            clearButton defaultValue={this.state.cw}
                             onInput={
                                 (e) => {
-                                    this.setState({ 'kwota': e.target.value })
+                                    this.setState({ 'cw': e.target.value })
+                                }
+                            }
+                        />
+                        <ListInput
+                            label={labels.en.readzw}
+                            type="text"
+                            required validate pattern="[0-9]*"
+                            clearButton defaultValue={this.state.zw}
+                            onInput={
+                                (e) => {
+                                    this.setState({ 'zw': e.target.value })
+                                }
+                            }
+                        />
+                        <ListInput
+                            label={labels.en.readprad}
+                            type="text"
+                            required validate pattern="[0-9]*"
+                            clearButton defaultValue={this.state.prad}
+                            onInput={
+                                (e) => {
+                                    this.setState({ 'prad': e.target.value })
                                 }
                             }
                         />
@@ -195,12 +217,16 @@ class Rent extends Component {
                                 }
                             }
                         >
-                            <option value='paid' > {labels.en.paid}> </option>
-                            <option value='due' > {labels.en.due}> </option>
+                            <option value='paid' > {labels.en.paid} </option>
+                            <option value='due' > {labels.en.due} </option>
+                            <option value='wymiana' > {labels.en.wymiana} </option>
+                            <option value='tocalculate' > {labels.en.tocalculate} </option>
+                            <option value='-' > {labels.en.poczatkowy} </option>
+                            
                         </ListInput>
-                        <ListInput label='rentid'
+                        <ListInput label={labels.en.id}
                             type='text'
-                            value={this.state.rentapp_rentid}
+                            value={this.state.rentapp_readid}
                         />
                     </List>
                     <List>
@@ -211,4 +237,4 @@ class Rent extends Component {
     }
 }
 
-export default Rent;
+export default Read;

@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
-import {Page, Navbar, Link, List, ListItem, BlockTitle, BlockFooter, BlockHeader, Block } from 'framework7-react';
+import {Page, Navbar, List, ListItem, BlockFooter, BlockHeader, Block } from 'framework7-react';
 
 import store from '../store/store';
 import Logger from '../logger';
-import Component2 from "./Component2";
 import config from "../config/config";
 import labels from '../config/labels';
 
 let refreshNo = 0;
 
 const log = Logger({level: config.loglevel}); // Logger
-class Component1 extends Component {
+class PanelLeft extends Component {
     constructor(props) {
         super(props);
     }
@@ -64,6 +63,9 @@ class Component1 extends Component {
                         {/*<ListItem link="/c1/" title="Component1" view="#main-view" panelClose />*/}
                         {/*<ListItem link="/c2/" title="Component2" view="#main-view" panelClose />*/}
                         <ListItem link="/rentsList/" title={labels.en.rentslisttitle} view="#main-view" panelClose />
+                        <ListItem link="/readsList/" title={labels.en.ReadsListtitle} view="#main-view" panelClose />
+                        <ListItem link="/waterPricesList/" title={labels.en.WaterPricestitle} view="#main-view" panelClose />
+                        <ListItem link="/energyPricesList/" title={labels.en.EnergyPricestitle} view="#main-view" panelClose />
                         {/*<ListItem link="/rent/" title={labels.en.rentaddtitle} view="#main-view" panelClose />*/}
                     </List>
                     <BlockFooter>Menu Footer</BlockFooter>
@@ -73,4 +75,4 @@ class Component1 extends Component {
     }
 }
 
-export default Component1;
+export default PanelLeft;

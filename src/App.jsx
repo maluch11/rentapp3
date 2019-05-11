@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import {App as F7App, View, Panel} from 'framework7-react';
-import config from "./config/config";
-import Logger from './logger';
-
-import logo from './img/logo.svg';
+// import config from "./config/config";
+// import Logger from './logger';
+// import logo from './img/logo.svg';
 import './css/app.css';
 import Component1 from "./components/Component1";
 import Component2 from "./components/Component2";
@@ -13,10 +12,14 @@ import LeftPanel from "./components/PanelLeft";
 import store from './store/store';
 import RentsList from "./components/RentsList";
 import Rent from './components/Rent';
+import ReadsList from './components/ReadsList';
+import Read from './components/Read';
+import WaterPrices from './components/WaterPrices'
+import EnergyPrices from './components/EnergyPrices'
 
 const f7params = {
-    name: 'My App',
-    id: 'com.myapp.test',
+    name: 'RentApp',
+    id: 'com.malucha.rentapp3',
     // specify routes for app
     routes: [
         {
@@ -51,11 +54,37 @@ const f7params = {
             path: '/rent/:rentid',
             component: Rent,
         },
-        
+        {
+            path: '/readsList/',
+            component: ReadsList,
+        },
+        {
+            path: '/read/',
+            component: Read,
+        },
+        {
+            path: '/read/:readid',
+            component: Read,
+        },
+        {
+            path: '/waterPricesList/',
+            component: WaterPrices,
+        },
+        // {
+        //     path: '/waterprice/',
+        //     component: WaterPrice,
+        // },
+        {
+            path: '/energyPricesList/',
+            component: EnergyPrices,
+        },
+        // {
+        //     path: '/energyprice/',
+        //     component: EnergyPrice,
+        // },
     ],
 };
 
-const log = Logger({level: config.loglevel}); // Logger
 class App extends Component {
     componentDidMount() {
         var me = this; // reference to this component
@@ -68,7 +97,7 @@ class App extends Component {
     return (
       <F7App params={f7params}>
           <Panel left cover themeDark >
-              <View id="left-panel" url={'/panel-left/'} /*user={this.state.user}*/ />
+              <View id="left-panel" url={'/panel-left/'} />
           </Panel>
           <View id="main-view" url={'/'} main className="ios-edges">
               <Home/>

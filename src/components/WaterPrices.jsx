@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Page, Navbar, List, ListItem, Input, Fab, Icon, Block} from 'framework7-react';
+import {Page, Navbar, List, ListItem, Input, Fab, Icon, Block, Row, Col} from 'framework7-react';
 
 import store from '../store/store';
 import Logger from '../logger';
@@ -10,32 +10,36 @@ import AuthService from '../AuthService';
 const Auth = new AuthService(); // Authentication service
 const log = Logger({level: config.loglevel}); // Logger
 
-class RentsList extends Component {
+class WaterPrices extends Component {
+    emptyListElement = () => {
+        let emptyListElement = {
+            dt: '',
+            cenacwstala: 0,
+            cenacwzuzycie: 0,
+            cenazwzuzycie: 0,
+            rentapp_water_priceid: '',
+        };
+        return emptyListElement;
+    }
+
     constructor(props) {
         super(props);
         
-        if(store.get().rentslist === undefined){
-            // SET EMPTY/DUMMY rentlist store
-            store.get().set('rentslist', [
-                        {
-                            dt: '',
-                            kwota: 0,
-                            stat: '',
-                            rentapp_rentid: '',
-                        }
-                    ]);
+        if(store.get().WaterPrices === undefined){
+            store.get().set('WaterPrices', [
+                this.emptyListElement()
+            ]);
         }
     }
-    
-    componentWillMount() {
 
+    componentWillMount() {
     }
     
     componentDidMount() {
         var me = this; // reference to this component
         store.on('update', () => { me.forceUpdate(); Auth.saveToLocalStorage();}); // RE-RENDER component if store updated
     
-        this.getRentsListFromAPI();
+        this.getListFromAPI();
     }
     
     componentWillReceiveProps(nextProps) {
@@ -54,11 +58,11 @@ class RentsList extends Component {
     
     }
     
-    getRentsListFromAPI = () => {
+    getListFromAPI = () => {
         this.$f7.preloader.show(); //preloader show - working way
         
-        const selecturl = config.apihost + ':' + config.apiport + '/api/rentapp_rents/';
-        log.debug(selecturl); //creting url
+        const selecturl = config.apihost + ':' + config.apiport + '/api/rentapp_water_prices/'; //creting url
+        log.debug(selecturl); 
         
         return Auth.fetch(selecturl, {
             method: 'GET',
@@ -77,22 +81,16 @@ class RentsList extends Component {
                         });
                         
                         // STORE UPDATE IF NOT EQUAL
-                        store.get().set('rentslist', r);
+                        store.get().set('WaterPrices', r);
                     }
                     this.$f7.preloader.hide();
                     return Promise.resolve(res);
                 },
                 (error) => {
-                    // SET EMPTY/DUMMY rentlist store
-                    store.get().set('rentslist', [
-                        {
-                            dt: '',
-                            kwota: 0,
-                            stat: '',
-                            rentapp_rentid: '',
-                        }
+                    store.get().set('WaterPrices', [
+                        this.emptyListElement()
                     ]);
-                    log.debug('RentsList.getRentList.ERROR: ' + error.message);
+                    log.debug('WaterPrices.getFromAPI.ERROR: ' + error.message);
                     this.$f7.preloader.hide();
                     return false;
                 }
@@ -105,33 +103,41 @@ class RentsList extends Component {
     };
     
     loadMore = (event, done) => {
-        this.getRentsListFromAPI();
+        this.getListFromAPI();
         done();
     }
     
     render() {
         return (
             <Page hideToolbarOnScroll hideNavbarOnScroll ptr onPtrRefresh={this.loadMore}>
-                <Navbar title={labels.en.rentslisttitle} backLink={labels.en.back} />
-                
-                <List mediaList virtualList
-                    virtualListParams={{ items: store.get().rentslist, height: this.$theme.ios ? 63 : 73}}>
+                <Navbar title={labels.en.WaterPricestitle} backLink={labels.en.back} />
+                <List mediaList virtualList virtualListParams={{ items: store.get().WaterPrices, height: this.$theme.ios ? 63 : 73}}>
                     <ul>
-                        {store.get().rentslist.map((item, index) => (
+                        {store.get().WaterPrices.map((item, index) => (
                             <ListItem
                                 key={index}
-                                mediaItem
-                                link={'/rent/'+item.rentapp_rentid}
+                                link='#' //{'/waterprice/'+item.rentapp_readid}
                                 title={<Input type='date' value={this.dtformat(item.dt)} disabled />}
-                                badge={item.stat==='paid' ? labels.en.paid : labels.en.due}
-                                badgeColor={item.stat==='paid' ? 'green' : 'red'}
-                                subtitle={item.kwota}
-                            />
+                            >
+                            <Block>
+                                        <Row>
+                                            <Col>{labels.en.WaterPricecenacwstala}:</Col>
+                                            <Col>{item.cenacwstala}</Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>{labels.en.WaterPricecenacwzuzycie}:</Col>
+                                            <Col>{item.cenacwzuzycie}</Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>{labels.en.WaterPricecenazwzuzycie}:</Col>
+                                            <Col>{item.cenazwzuzycie}</Col>
+                                        </Row>
+                                    </Block>
+                            </ListItem>
                         ))}
                     </ul>
                 </List>
-                
-                <Fab position="center-bottom" slot="fixed" color="blue" href='/rent/'>
+                <Fab position="center-bottom" slot="fixed" color="blue" href='/water_price/'>
                     <Icon ios="f7:add" md="material:add"></Icon>
                 </Fab>
             </Page>
@@ -139,4 +145,4 @@ class RentsList extends Component {
     }
 }
 
-export default RentsList;
+export default WaterPrices;
