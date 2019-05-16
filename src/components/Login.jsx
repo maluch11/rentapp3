@@ -4,6 +4,8 @@ import config from "../config/config";
 import labels from "../config/labels";
 import store from '../store/store';
 import Logger from '../logger';
+import AuthService from '../AuthService';
+const Auth = new AuthService(); // Authentication service
 
 const log = Logger({level: config.loglevel}); // Logger
 export default class extends React.Component {
@@ -59,64 +61,76 @@ export default class extends React.Component {
     handleLogin = (username, password) => {
         const self = this;
         const router = self.$f7router;
-        
-        // Get a token from api server using the fetch api
-        let url1 = `${this.domain}/authenticate`;
-        log.debug(url1);
-        
-        return this.fetch(url1, {
-            method: 'POST',
-            body: JSON.stringify({
-                login: username,
-                password: password,
-            })
-        }).then(res => {
-            store.get().set(self.state); //todo DELETE - ONLY TEST PURPOSE
-            store.get().set('token',res.token);
-            store.get().set('isLogged',true);
-            router.back();
-        }).catch(() => {
-            log.debug("error");
-        });
+        Auth.handleLogin(username, password);
+        router.back();
     }
-    
+
     isLogged = () => {
-        return store.get().isLogged;
+        return Auth.isLogged();
     }
-    
+
     getToken = () => {
-        return store.get().token; //Get token from Freezer
+        // return store.get().token; //Get token from Freezer
+        return Auth.getToken();
     }
-    
-    fetch = (url, options) => {
-        // performs api calls sending the required authentication headers
-        const headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        };
+
+    // handleLogin = (username, password) => {
+    //     const self = this;
+    //     const router = self.$f7router;
         
-        // Setting Authorization header
-        // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
-        if (this.isLogged()) {
-            headers['Authorization'] = 'Bearer ' + this.getToken()
-        }
+    //     // Get a token from api server using the fetch api
+    //     let url1 = `${this.domain}/authenticate`;
+    //     log.debug(url1);
         
-        return fetch(url, {
-            headers,
-            ...options
-        })
-            .then(this._checkStatus)
-            .then(response => response.json())
-    }
+    //     return this.fetch(url1, {
+    //         method: 'POST',
+    //         body: JSON.stringify({
+    //             login: username,
+    //             password: password,
+    //         })
+    //     }).then(res => {
+    //         // store.get().set(self.state); //todo DELETE - ONLY TEST PURPOSE
+    //         store.get().set('token',res.token);
+    //         // store.get().set('isLogged',true);
+    //         router.back();
+    //     }).catch(() => {
+    //         log.debug("error");
+    //     });
+    // }
     
-    _checkStatus = (response) => {
-        // raises an error in case response status is not a success
-        if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300
-            return response
-        } else {
-            let error = new Error(response.statusText);
-            error.response = response;
-            throw error
-        }
-    }
+    // getToken = () => {
+    //     return store.get().token; //Get token from Freezer
+    // }
+    
+    // fetch = (url, options) => {
+    //     // performs api calls sending the required authentication headers
+    //     const headers = {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'
+    //     };
+        
+    //     // Setting Authorization header
+    //     // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
+    //     if (this.isLogged()) {
+    //         headers['Authorization'] = 'Bearer ' + this.getToken()
+    //     }
+        
+    //     return fetch(url, {
+    //         headers,
+    //         ...options
+    //     })
+    //         .then(this._checkStatus)
+    //         .then(response => response.json())
+    // }
+    
+    // _checkStatus = (response) => {
+    //     // raises an error in case response status is not a success
+    //     if (response.status >= 200 && response.status < 300) { // Success status lies between 200 to 300
+    //         return response
+    //     } else {
+    //         let error = new Error(response.statusText);
+    //         error.response = response;
+    //         throw error
+    //     }
+    // }
 }

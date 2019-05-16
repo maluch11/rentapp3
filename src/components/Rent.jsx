@@ -195,8 +195,8 @@ class Rent extends Component {
                                 }
                             }
                         >
-                            <option value='paid' > {labels.en.paid}> </option>
-                            <option value='due' > {labels.en.due}> </option>
+                            <option value='paid' > {labels.en.paid} </option>
+                            <option value='due' > {labels.en.due} </option>
                         </ListInput>
                         <ListInput label='rentid'
                             type='text'

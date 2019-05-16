@@ -26,7 +26,7 @@ class WaterPrices extends Component {
         super(props);
         
         if(store.get().WaterPrices === undefined){
-            store.get().set('WaterPrices', [
+            store.get().set('apirentapp_water_prices', [
                 this.emptyListElement()
             ]);
         }
@@ -39,26 +39,18 @@ class WaterPrices extends Component {
         var me = this; // reference to this component
         store.on('update', () => { me.forceUpdate(); Auth.saveToLocalStorage();}); // RE-RENDER component if store updated
     
-        this.getListFromAPI();
+        this.getWaterPricesListFromAPI();
     }
     
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {}
     
-    }
+    componentWillUpdate(nextProps, nextState) {}
     
-    componentWillUpdate(nextProps, nextState) {
+    componentDidUpdate(prevProps, prevState) {}
     
-    }
+    componentWillUnmount() {}
     
-    componentDidUpdate(prevProps, prevState) {
-
-    }
-    
-    componentWillUnmount() {
-    
-    }
-    
-    getListFromAPI = () => {
+    getWaterPricesListFromAPI = () => {
         this.$f7.preloader.show(); //preloader show - working way
         
         const selecturl = config.apihost + ':' + config.apiport + '/api/rentapp_water_prices/'; //creting url
@@ -81,13 +73,13 @@ class WaterPrices extends Component {
                         });
                         
                         // STORE UPDATE IF NOT EQUAL
-                        store.get().set('WaterPrices', r);
+                        store.get().set('apirentapp_water_prices', r);
                     }
                     this.$f7.preloader.hide();
                     return Promise.resolve(res);
                 },
                 (error) => {
-                    store.get().set('WaterPrices', [
+                    store.get().set('apirentapp_water_prices', [
                         this.emptyListElement()
                     ]);
                     log.debug('WaterPrices.getFromAPI.ERROR: ' + error.message);
@@ -103,7 +95,7 @@ class WaterPrices extends Component {
     };
     
     loadMore = (event, done) => {
-        this.getListFromAPI();
+        this.getWaterPricesListFromAPI();
         done();
     }
     
@@ -111,9 +103,9 @@ class WaterPrices extends Component {
         return (
             <Page hideToolbarOnScroll hideNavbarOnScroll ptr onPtrRefresh={this.loadMore}>
                 <Navbar title={labels.en.WaterPricestitle} backLink={labels.en.back} />
-                <List mediaList virtualList virtualListParams={{ items: store.get().WaterPrices, height: this.$theme.ios ? 63 : 73}}>
+                <List mediaList virtualList virtualListParams={{ items: store.get().apirentapp_water_prices, height: this.$theme.ios ? 63 : 73}}>
                     <ul>
-                        {store.get().WaterPrices.map((item, index) => (
+                        {store.get().apirentapp_water_prices.map((item, index) => (
                             <ListItem
                                 key={index}
                                 link='#' //{'/waterprice/'+item.rentapp_readid}

@@ -1,10 +1,9 @@
-import Freezer from 'freezer-js';
+import Freezer from 'freezer-js'; //https://www.npmjs.com/package/freezer-js
 // import Utils from './utils';
 
-// Try to recover the store from the localStorage
+// TODO: Try to recover the store from the localStorage
 let state = {
-    a: 'ready',
-    b: 'pending'
+    appname: 'rentapp3'
 };
 
 // let state = localStorage.getItem('rentapp3store') === null ? {

@@ -30,7 +30,7 @@ class EnergyPrices extends Component {
         super(props);
         
         if(store.get().EnergyPrices === undefined){
-            store.get().set('EnergyPrices', [
+            store.get().set('apirentapp_energy_prices', [
                 this.emptyListElement()
             ]);
         }
@@ -85,13 +85,13 @@ class EnergyPrices extends Component {
                         });
                         
                         // STORE UPDATE IF NOT EQUAL
-                        store.get().set('EnergyPrices', r);
+                        store.get().set('apirentapp_energy_prices', r);
                     }
                     this.$f7.preloader.hide();
                     return Promise.resolve(res);
                 },
                 (error) => {
-                    store.get().set('EnergyPrices', [
+                    store.get().set('apirentapp_energy_prices', [
                         this.emptyListElement()
                     ]);
                     log.debug('EnergyPrices.getFromAPI.ERROR: ' + error.message);
@@ -115,9 +115,9 @@ class EnergyPrices extends Component {
         return (
             <Page hideToolbarOnScroll hideNavbarOnScroll ptr onPtrRefresh={this.loadMore}>
                 <Navbar title={labels.en.EnergyPricestitle} backLink={labels.en.back} />
-                <List mediaList virtualList virtualListParams={{ items: store.get().EnergyPrices, height: this.$theme.ios ? 63 : 73}}>
+                <List mediaList virtualList virtualListParams={{ items: store.get().apirentapp_energy_prices, height: this.$theme.ios ? 63 : 73}}>
                     <ul>
-                        {store.get().EnergyPrices.map((item, index) => (
+                        {store.get().apirentapp_energy_prices.map((item, index) => (
                             <ListItem
                                 key={index}
                                 link='#' //{'/waterprice/'+item.rentapp_readid}

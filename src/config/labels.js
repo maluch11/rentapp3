@@ -48,7 +48,7 @@ module.exports = {
         'readposition': 'Pozycja',
         'readreading': 'Odczyt',
         'readconsumption': 'Zuzycie',
-        'readamount': 'Wartosc',
+        'readamount': 'Koszt',
 
         //WATERPRICES
         'WaterPricestitle':'Ceny wody',

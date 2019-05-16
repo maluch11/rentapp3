@@ -2,6 +2,7 @@ import decode from 'jwt-decode';
 import config from "./config/config";
 import Logger from './logger';
 import store from './store/store';
+import rules from "./rbac-rules";
 
 let log = Logger({ level: config.loglevel });
 
@@ -19,7 +20,7 @@ export default class AuthService {
     isTokenExpired = (token) => {
         try {
             const decoded = decode(token);
-            if (decoded.exp < Date.now() / 1000) { // Checking if token is expired. N
+            if (decoded.exp < Date.now() / 1000) { // Checking if token is expired.
                 return true;
             } else
                 return false;
@@ -36,6 +37,7 @@ export default class AuthService {
 
     logout = () => {
         this.setToken(''); //clear freezer and localStorage
+        this.saveToLocalStorage();
     }
     getProfile = () => {
         // Using jwt-decode npm package to decode the token
@@ -78,8 +80,106 @@ export default class AuthService {
 
     /**
      * DEPRECATED temporarily
+     * Only App data + Token can be stored in Local Storage no profile data can be stored in there
      */
     saveToLocalStorage = () => {
         localStorage.setItem('rentapp3store', JSON.stringify(store.get()));
     }
+
+    handleLogin = (username, password) => {
+        const self = this;
+        const router = self.$f7router;
+        
+        // Get a token from api server using the fetch api
+        let url1 = `${this.domain}/authenticate`;
+        log.debug(url1);
+        
+        return this.fetch(url1, {
+            method: 'POST',
+            body: JSON.stringify({
+                login: username,
+                password: password,
+            })
+        }).then(res => {
+            this.setToken(res.token);
+            router.back();
+        }).catch(() => {
+            log.debug("error");
+        });
+    }
+
+    /** ROLE BASE ACCESS CONTROL */
+    //DEPRECATED
+    check = (rules, role, action, data) => {
+        const permissions = rules[role];
+        if (!permissions) {
+            // role is not present in the rules
+            return false;
+        }
+        
+        const staticPermissions = permissions.static;
+        
+        if (staticPermissions && staticPermissions.includes(action)) {
+            // static rule not provided for action
+            return true;
+        }
+        
+        const dynamicPermissions = permissions.dynamic;
+        
+        if (dynamicPermissions) {
+            const permissionCondition = dynamicPermissions[action];
+            if (!permissionCondition) {
+            // dynamic rule not provided for action
+            return false;
+            }
+        
+            return permissionCondition(data);
+        }
+        return false;
+    };
+
+    /**
+     * Takes RBAC-RULES as input and validates against it.
+     * If action for specific role is in the rbac-rules.js file then returs TRUE
+     * else returns false
+     * 
+     * usage example on page
+     * {Auth.isAuthorized('Home:visit')
+            ? <p>Authorized</p>
+            : null
+        }
+
+        where 
+
+        Auth.isAuthorized('Home:visit') returns TRUE/FALSE
+     */
+    isAuthorized = (action, data) => {
+        const role = this.getProfile() ? this.getProfile().userrole : '';
+        const permissions = rules[role];
+        if (!permissions) {
+            // role is not present in the rules
+            return false;
+        }
+        
+        const staticPermissions = permissions.static;
+        
+        if (staticPermissions && staticPermissions.includes(action)) {
+            // static rule not provided for action
+            return true;
+        }
+        
+        const dynamicPermissions = permissions.dynamic;
+        
+        if (dynamicPermissions) {
+            const permissionCondition = dynamicPermissions[action];
+            if (!permissionCondition) {
+            // dynamic rule not provided for action
+            return false;
+            }
+        
+            return permissionCondition(data);
+        }
+        return false;
+    };
+
 }

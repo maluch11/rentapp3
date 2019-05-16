@@ -35,7 +35,7 @@ class Read extends Component {
             this.state = this.emptyListElement();
         } else {
             //EDIT RENT
-            this.state = store.get().ReadsList.find(x => x.rentapp_readid === props.readid); //get edited object
+            this.state = store.get().apirentapp_reads.find(x => x.rentapp_readid === props.readid); //get edited object
         }
     }
 
@@ -43,7 +43,7 @@ class Read extends Component {
 
     componentDidMount() {
         var me = this; // reference to this component
-        store.on('update', () => { me.forceUpdate(); }); // RE-RENDER component if store updated
+        store.on('update', () => { me.forceUpdate(); Auth.saveToLocalStorage();}); // RE-RENDER component if store updated
     }
 
     componentWillReceiveProps(nextProps) {
@@ -69,45 +69,45 @@ class Read extends Component {
             log.debug("NEW READ")
 
             this.setState({ 'rentapp_readid': uniqueid.getUniqueid() }) //generate unique id
-            store.get().ReadsList.unshift(this.state) //add new record to store
+            store.get().apirentapp_reads.unshift(this.state) //add new record to store
             
-            let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_read/' + this.state.rentapp_readid; //call API - create url
-            log.debug(inserturl);
-            Auth.fetch(inserturl, { //call API - POST
-                method: 'POST',
-                body: JSON.stringify({
-                    dt: this.state.dt,
-                    cw: this.state.cw,
-                    zw: this.state.zw,
-                    prad: this.state.prad,
-                    prad_oplata: this.state.prad_oplata,
-                    stat: this.state.stat,
-                })
-            })
+            // let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_read/' + this.state.rentapp_readid; //call API - create url
+            // log.debug(inserturl);
+            // Auth.fetch(inserturl, { //call API - POST
+            //     method: 'POST',
+            //     body: JSON.stringify({
+            //         dt: this.state.dt,
+            //         cw: this.state.cw,
+            //         zw: this.state.zw,
+            //         prad: this.state.prad,
+            //         prad_oplata: this.state.prad_oplata,
+            //         stat: this.state.stat,
+            //     })
+            // })
 
         } else {
 
             //UPDATE READ
             log.debug("UPDATE READ")
             
-            let idx = store.get().ReadsList.findIndex(x => x.rentapp_readid === this.state.rentapp_readid) //get index of record in store
-            store.get().ReadsList[idx].set(this.state) //update store
-
-            let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_read/' + this.state.rentapp_readid; //call API - create url
-            log.debug(inserturl);
-            Auth.fetch(inserturl, { //call API - POST
-                method: 'POST',
-                body: JSON.stringify({
-                    dt: this.state.dt,
-                    cw: this.state.cw,
-                    zw: this.state.zw,
-                    prad: this.state.prad,
-                    prad_oplata: this.state.prad_oplata,
-                    stat: this.state.stat,
-                })
-            })
+            let idx = store.get().apirentapp_reads.findIndex(x => x.rentapp_readid === this.state.rentapp_readid) //get index of record in store
+            store.get().apirentapp_reads[idx].set(this.state) //update store
 
         }
+
+        let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_read/' + this.state.rentapp_readid; //call API - create url
+        log.debug(inserturl);
+        Auth.fetch(inserturl, { //call API - POST
+            method: 'POST',
+            body: JSON.stringify({
+                dt: this.state.dt,
+                cw: this.state.cw,
+                zw: this.state.zw,
+                prad: this.state.prad,
+                prad_oplata: this.state.prad_oplata,
+                stat: this.state.stat,
+            })
+        })
 
         ///rentapp_rent UPDATE STORE based on STATE and UPDATE API based on STATE (if OFFLINE then store the call in store and LOCAL-STOREGE
         log.debug(store.get());
@@ -176,7 +176,7 @@ class Read extends Component {
                         <ListInput
                             label={labels.en.readcw}
                             type="text"
-                            required validate pattern="[0-9]*"
+                            required validate pattern="[0-9]*\.?[0-9]+"
                             clearButton defaultValue={this.state.cw}
                             onInput={
                                 (e) => {
@@ -187,7 +187,7 @@ class Read extends Component {
                         <ListInput
                             label={labels.en.readzw}
                             type="text"
-                            required validate pattern="[0-9]*"
+                            required validate pattern="[0-9]*\.?[0-9]+"
                             clearButton defaultValue={this.state.zw}
                             onInput={
                                 (e) => {
@@ -198,7 +198,7 @@ class Read extends Component {
                         <ListInput
                             label={labels.en.readprad}
                             type="text"
-                            required validate pattern="[0-9]*"
+                            required validate pattern="[0-9]*\.?[0-9]+"
                             clearButton defaultValue={this.state.prad}
                             onInput={
                                 (e) => {
@@ -207,6 +207,7 @@ class Read extends Component {
                             }
                         />
                         <ListInput
+                            disabled={!Auth.isAuthorized('Read:edit')}
                             label={labels.en.statuslabel}
                             type='select'
                             defaultValue={this.state.stat}
@@ -229,9 +230,11 @@ class Read extends Component {
                             value={this.state.rentapp_readid}
                         />
                     </List>
+                    {Auth.isAuthorized('Read:edit') &&
                     <List>
                         <ListButton onClick={this.clickMeHandle} > {labels.en.ok} </ListButton>
-                    </List>
+                    </List> 
+                    }
                 </Page>
         );
     }

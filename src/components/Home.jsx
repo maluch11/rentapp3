@@ -4,9 +4,12 @@ import {Page, Navbar, Link, List, ListItem, BlockTitle, Block, BlockHeader, Bloc
 import store from '../store/store';
 import Logger from '../logger';
 import config from "../config/config";
+import AuthService from '../AuthService';
+import rules from "../rbac-rules";
 
 let refreshNo = 0;
 
+const Auth = new AuthService(); // Authentication service
 const log = Logger({level: config.loglevel}); // Logger
 class Home extends Component {
     constructor(props) {
@@ -19,7 +22,9 @@ class Home extends Component {
     
     componentDidMount() {
         var me = this; // reference to this component
-        store.on('update', function(){ me.forceUpdate(); }); // RE-RENDER component if store updated
+        store.on('update', function(){ me.forceUpdate(); Auth.saveToLocalStorage();}); // RE-RENDER component if store updated
+
+
     }
     
     componentWillReceiveProps(nextProps) {
@@ -31,7 +36,6 @@ class Home extends Component {
     }
     
     componentDidUpdate(prevProps, prevState) {
-    
     }
     
     componentWillUnmount() {
@@ -39,11 +43,39 @@ class Home extends Component {
     }
     
     handleLogout = () => {
-        store.get().set('isLogged','');
+        Auth.logout();
         this.$f7.views.main.router.navigate('/login/');
     };
     navigateLogin = () => {
         this.$f7.views.main.router.navigate('/login/');
+    };
+
+    check = (rules, role, action, data) => {
+        const permissions = rules[role];
+        if (!permissions) {
+            // role is not present in the rules
+            return false;
+        }
+        
+        const staticPermissions = permissions.static;
+        
+        if (staticPermissions && staticPermissions.includes(action)) {
+            // static rule not provided for action
+            return true;
+        }
+        
+        const dynamicPermissions = permissions.dynamic;
+        
+        if (dynamicPermissions) {
+            const permissionCondition = dynamicPermissions[action];
+            if (!permissionCondition) {
+            // dynamic rule not provided for action
+            return false;
+            }
+        
+            return permissionCondition(data);
+        }
+        return false;
     };
     
     render() {
@@ -56,7 +88,7 @@ class Home extends Component {
                     </NavLeft>
                     <NavTitle>Home</NavTitle>
                     <NavRight>{
-                        store.get().isLogged
+                        Auth.isLogged()
                             ? <Link onClick={this.handleLogout}>Logout</Link>
                             : <Link onClick={this.navigateLogin}>Login</Link>
                     }</NavRight>
@@ -66,10 +98,22 @@ class Home extends Component {
                     {/*<ListItem link="/login/" title="LoginPage"></ListItem>*/}
                     {/*<ListItem><Link onClick={this.handleLogout}>Logout</Link></ListItem>*/}
                 {/*</List>*/}
-                <Block>
-                    <BlockHeader>username {store.get().username}</BlockHeader>
+                <Block> 
+                    <BlockHeader>username {Auth.getProfile() != null ? Auth.getProfile().username : ''}</BlockHeader>
                     <BlockFooter>password {store.get().password}</BlockFooter>
+                </Block> 
+                {
+                    //TODO: delete this block for production release
+                }
+                
+                <Block>
+                <p>
+                    {JSON.stringify(Auth.getProfile())}
+                </p>
+
+                {Auth.isAuthorized('Home:visit') && <p>Authorized</p>}
                 </Block>
+
                 {/*{*/}
                     {/*store.get().isLogged ?*/}
                     {/*<List>*/}
