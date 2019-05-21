@@ -120,7 +120,7 @@ class EnergyPrices extends Component {
                         {store.get().apirentapp_energy_prices.map((item, index) => (
                             <ListItem
                                 key={index}
-                                link='#' //{'/waterprice/'+item.rentapp_readid}
+                                link={'/energyprice/'+item.rentapp_energy_priceid}
                                 title={<Input type='date' value={this.dtformat(item.dt)} disabled />}
                             >
                                 <Block>
@@ -161,7 +161,7 @@ class EnergyPrices extends Component {
                         ))}
                     </ul>
                 </List>
-                <Fab position="center-bottom" slot="fixed" color="blue" href='/energy_price/'>
+                <Fab position="center-bottom" slot="fixed" color="blue" href='/energyprice/'>
                     <Icon ios="f7:add" md="material:add"></Icon>
                 </Fab>
             </Page>

@@ -62,7 +62,7 @@ export default class extends React.Component {
         const self = this;
         const router = self.$f7router;
         Auth.handleLogin(username, password);
-        router.back();
+        router.navigate('/');
     }
 
     isLogged = () => {

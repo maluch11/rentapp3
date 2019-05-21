@@ -5,6 +5,8 @@ import store from '../store/store';
 import Logger from '../logger';
 import config from "../config/config";
 import labels from '../config/labels';
+import AuthService from '../AuthService';
+const Auth = new AuthService(); // Authentication service
 
 let refreshNo = 0;
 
@@ -59,16 +61,14 @@ class PanelLeft extends Component {
                 <Block>
                     <BlockHeader>Menu</BlockHeader>
                     <List>
-                        <ListItem link="/" title="Home" view="#main-view" panelClose />
-                        {/*<ListItem link="/c1/" title="Component1" view="#main-view" panelClose />*/}
-                        {/*<ListItem link="/c2/" title="Component2" view="#main-view" panelClose />*/}
-                        <ListItem link="/rentsList/" title={labels.en.rentslisttitle} view="#main-view" panelClose />
-                        <ListItem link="/readsList/" title={labels.en.ReadsListtitle} view="#main-view" panelClose />
-                        <ListItem link="/waterPricesList/" title={labels.en.WaterPricestitle} view="#main-view" panelClose />
-                        <ListItem link="/energyPricesList/" title={labels.en.EnergyPricestitle} view="#main-view" panelClose />
+                        {Auth.isAuthorized('Home:visit') && <ListItem link="/" title="Home" view="#main-view" panelClose />}
+                        {Auth.isAuthorized('RentsList:visit') && <ListItem link="/rentsList/" title={labels.en.rentslisttitle} view="#main-view" panelClose />}
+                        {Auth.isAuthorized('ReadsList:visit') && <ListItem link="/readsList/" title={labels.en.ReadsListtitle} view="#main-view" panelClose />}
+                        {Auth.isAuthorized('WaterPricesList:visit') && <ListItem link="/waterPricesList/" title={labels.en.WaterPricestitle} view="#main-view" panelClose />}
+                        {Auth.isAuthorized('EnergyPricesList:visit') && <ListItem link="/energyPricesList/" title={labels.en.EnergyPricestitle} view="#main-view" panelClose />}
                         {/*<ListItem link="/rent/" title={labels.en.rentaddtitle} view="#main-view" panelClose />*/}
                     </List>
-                    <BlockFooter>Menu Footer</BlockFooter>
+                    <BlockFooter>{labels.en.menufooter}</BlockFooter>
                 </Block>
             </Page>
         );

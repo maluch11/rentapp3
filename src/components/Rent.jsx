@@ -17,17 +17,17 @@ class Rent extends Component {
         // #region just for testing
         // log.debug(JSON.parse(props.rentid));
         //
-        // let rentslist = store.get().rentslist;
-        // log.debug(rentslist);
+        // let apirentapp_rents = store.get().apirentapp_rents;
+        // log.debug(apirentapp_rents);
         //
-        // let obj = rentslist.find(x => x.rentapp_rentid == JSON.parse(props.rentid).rentapp_rentid);
-        // let idx = rentslist.findIndex(x => x.rentapp_rentid == JSON.parse(props.rentid).rentapp_rentid); //working
+        // let obj = apirentapp_rents.find(x => x.rentapp_rentid == JSON.parse(props.rentid).rentapp_rentid);
+        // let idx = apirentapp_rents.findIndex(x => x.rentapp_rentid == JSON.parse(props.rentid).rentapp_rentid); //working
         //
         // log.debug(obj);
         // log.debug(idx);
         //
         //
-        // let indx = rentslist.indexOf(JSON.parse(props.rentid));
+        // let indx = apirentapp_rents.indexOf(JSON.parse(props.rentid));
         // log.debug('index in table: '+indx);
         // #endregion   
 
@@ -37,11 +37,12 @@ class Rent extends Component {
                 dt: this.getFirstDayNextMonth(),
                 kwota: 900,
                 stat: 'due',
+                contextid: store.get().selected_contextid,
                 rentapp_rentid: '',
             }
         } else {
             //EDIT RENT
-            this.state = store.get().rentslist.find(x => x.rentapp_rentid === props.rentid); //get edited object
+            this.state = store.get().apirentapp_rents.find(x => x.rentapp_rentid === props.rentid); //get edited object
         }
     }
 
@@ -49,7 +50,7 @@ class Rent extends Component {
 
     componentDidMount() {
         var me = this; // reference to this component
-        store.on('update', () => { me.forceUpdate(); }); // RE-RENDER component if store updated
+        store.on('update', () => { me.forceUpdate(); Auth.saveToLocalStorage();}); // RE-RENDER component if store updated
     }
 
     componentWillReceiveProps(nextProps) {
@@ -75,7 +76,7 @@ class Rent extends Component {
             log.debug("NEW RENT")
 
             this.setState({ 'rentapp_rentid': uniqueid.getUniqueid() }) //generate unique id
-            store.get().rentslist.unshift(this.state) //add new record to store
+            store.get().apirentapp_rents.unshift(this.state) //add new record to store
             
             let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_rent/' + this.state.rentapp_rentid; //call API - create url
             log.debug(inserturl);
@@ -85,6 +86,7 @@ class Rent extends Component {
                     dt: this.state.dt,
                     kwota: this.state.kwota,
                     stat: this.state.stat,
+                    contextid: store.get().selected_contextid,
                 })
             })
 
@@ -93,8 +95,8 @@ class Rent extends Component {
             //UPDATE RENT
             log.debug("UPDATE RENT")
             
-            let idx = store.get().rentslist.findIndex(x => x.rentapp_rentid === this.state.rentapp_rentid) //get index of record in store
-            store.get().rentslist[idx].set(this.state) //update store
+            let idx = store.get().apirentapp_rents.findIndex(x => x.rentapp_rentid === this.state.rentapp_rentid) //get index of record in store
+            store.get().apirentapp_rents[idx].set(this.state) //update store
 
             let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_rent/' + this.state.rentapp_rentid; //call API - create url
             log.debug(inserturl);
@@ -104,6 +106,7 @@ class Rent extends Component {
                     dt: this.state.dt,
                     kwota: this.state.kwota,
                     stat: this.state.stat,
+                    contextid: store.get().selected_contextid,
                 })
             })
 
@@ -185,6 +188,7 @@ class Rent extends Component {
                             }
                         />
                         <ListInput
+                            disabled={!Auth.isAuthorized('Rent:edit')}
                             label={labels.en.statuslabel}
                             type='select'
                             defaultValue={this.state.stat}
@@ -198,14 +202,24 @@ class Rent extends Component {
                             <option value='paid' > {labels.en.paid} </option>
                             <option value='due' > {labels.en.due} </option>
                         </ListInput>
+                        {Auth.isAuthorized('Rent:edit') && 
+                        <ListInput label='contextid'
+                            type='text'
+                            disabled
+                            value={this.state.contextid}
+                        />}
+                        {Auth.isAuthorized('Rent:edit') && 
                         <ListInput label='rentid'
                             type='text'
+                            disabled
                             value={this.state.rentapp_rentid}
-                        />
+                        />}
                     </List>
+                    {Auth.isAuthorized('Rent:edit') && 
                     <List>
                         <ListButton onClick={this.clickMeHandle} > {labels.en.ok} </ListButton>
                     </List>
+                    }
                 </Page>
         );
     }

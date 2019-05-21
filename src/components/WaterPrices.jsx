@@ -53,7 +53,7 @@ class WaterPrices extends Component {
     getWaterPricesListFromAPI = () => {
         this.$f7.preloader.show(); //preloader show - working way
         
-        const selecturl = config.apihost + ':' + config.apiport + '/api/rentapp_water_prices/'; //creting url
+        const selecturl = config.apihost + ':' + config.apiport + '/api/rentapp_water_prices/'+'contextid/'+store.get().selected_contextid; //creting url
         log.debug(selecturl); 
         
         return Auth.fetch(selecturl, {
@@ -74,6 +74,7 @@ class WaterPrices extends Component {
                         
                         // STORE UPDATE IF NOT EQUAL
                         store.get().set('apirentapp_water_prices', r);
+                        log.debug(r);
                     }
                     this.$f7.preloader.hide();
                     return Promise.resolve(res);
@@ -95,7 +96,7 @@ class WaterPrices extends Component {
     };
     
     loadMore = (event, done) => {
-        this.getWaterPricesListFromAPI();
+        // this.getWaterPricesListFromAPI();
         done();
     }
     
@@ -107,31 +108,34 @@ class WaterPrices extends Component {
                     <ul>
                         {store.get().apirentapp_water_prices.map((item, index) => (
                             <ListItem
-                                key={index}
-                                link='#' //{'/waterprice/'+item.rentapp_readid}
+                                key={index} 
+                                mediaItem 
+                                link={Auth.isAuthorized('WaterPrice:edit') ? '/waterprice/'+item.rentapp_water_priceid : '#'} 
                                 title={<Input type='date' value={this.dtformat(item.dt)} disabled />}
                             >
-                            <Block>
-                                        <Row>
-                                            <Col>{labels.en.WaterPricecenacwstala}:</Col>
-                                            <Col>{item.cenacwstala}</Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>{labels.en.WaterPricecenacwzuzycie}:</Col>
-                                            <Col>{item.cenacwzuzycie}</Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>{labels.en.WaterPricecenazwzuzycie}:</Col>
-                                            <Col>{item.cenazwzuzycie}</Col>
-                                        </Row>
-                                    </Block>
+                                <Block>
+                                    <Row>
+                                        <Col>{labels.en.WaterPricecenacwstala}:</Col>
+                                        <Col>{item.cenacwstala}</Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>{labels.en.WaterPricecenacwzuzycie}:</Col>
+                                        <Col>{item.cenacwzuzycie}</Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>{labels.en.WaterPricecenazwzuzycie}:</Col>
+                                        <Col>{item.cenazwzuzycie}</Col>
+                                    </Row>
+                                </Block>
                             </ListItem>
                         ))}
                     </ul>
                 </List>
-                <Fab position="center-bottom" slot="fixed" color="blue" href='/water_price/'>
+                {Auth.isAuthorized('WaterPrice:edit') && 
+                <Fab position="center-bottom" slot="fixed" color="blue" href='/waterprice/'>
                     <Icon ios="f7:add" md="material:add"></Icon>
                 </Fab>
+                }
             </Page>
         );
     }

@@ -84,7 +84,7 @@ class ReadsList extends Component {
     getListFromAPI2 = (apiurl, subfetchfunction) => {
         // this.$f7.preloader.show(); //preloader show - working way
         
-        const selecturl = config.apihost + ':' + config.apiport + apiurl; //ex. apiurl = /api/rentapp_reads/
+        const selecturl = config.apihost + ':' + config.apiport + apiurl +'contextid/'+store.get().selected_contextid; //ex. apiurl = /api/rentapp_reads/
         log.debug(selecturl); //creting url
         
         return Auth.fetch(selecturl, {
@@ -334,7 +334,7 @@ class ReadsList extends Component {
                         {store.get().apirentapp_reads.map((item, index) => (
                             <ListItem
                                 key={index}
-                                link={'/read/'+item.rentapp_readid}
+                                link={Auth.isAuthorized('Read:edit') ? '/read/'+item.rentapp_readid : '#'}
                                 header={<Input type='date' value={this.dtformat(item.dt)} disabled />}
                                 title={(item.stat !== 'wymiana' && item.stat !== '-' && item.stat !== 'tocalculate') ? item.totalcost+' PLN' : ''}
                                 badge={item.stat==='paid' ? labels.en.paid : item.stat==='due' ? labels.en.due : item.stat==='wymiana' ? labels.en.wymiana : item.stat==='-' ? labels.en.poczatkowy : labels.en.tocalculate}
@@ -387,9 +387,11 @@ class ReadsList extends Component {
                         ))}
                     </ul>
                 </List>
+                {Auth.isAuthorized('Read:edit') &&
                 <Fab position="center-bottom" slot="fixed" color="blue" href='/read/'>
                     <Icon ios="f7:add" md="material:add"></Icon>
                 </Fab>
+                }
             </Page>
         );
     }

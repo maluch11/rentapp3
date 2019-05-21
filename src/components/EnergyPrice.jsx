@@ -11,17 +11,19 @@ import uniqueid from "../store/uniqueid";
 const log = Logger({ level: config.loglevel }); // Logger
 const Auth = new AuthService(); // Authentication service
 
-class Read extends Component {
+class EnergyPrice extends Component {
     emptyListElement = () => {
         let emptyListElement = {
-            dt: this.getNow(),
-            cw: 0,
-            zw: 0,
-            prad: 0,
-            prad_oplata: -1,
-            stat: 'due',
-            contextid: store.get().selected_contextid,
-            rentapp_readid: '',
+             dt: this.getFirstDayNextMonth(), 
+             sieciowastala: 0,  
+             sieciowazmienna: 0,  
+             jakosciowa: 0,  
+             przejsciowa: 0,  
+             abonament: 0,  
+             saleszmienna: 0,  
+             salesstala: 0,  
+             rentapp_energy_priceid: '',
+             contextid: store.get().selected_contextid,
         };
         return emptyListElement;
     }
@@ -29,14 +31,14 @@ class Read extends Component {
     constructor(props) {
         super(props);
 
-        log.debug(props.readid);
+        log.debug(props.rentapp_energy_priceid);
 
-        if (props.readid === undefined || props.readid === 'null' || props.readid === null || props.readid === '') {
+        if (props.energy_priceid === undefined || props.energy_priceid === 'null' || props.energy_priceid === null || props.energy_priceid === '') {
             //NEW RENT
             this.state = this.emptyListElement();
         } else {
             //EDIT RENT
-            this.state = store.get().apirentapp_reads.find(x => x.rentapp_readid === props.readid); //get edited object
+            this.state = store.get().apirentapp_energy_prices.find(x => x.rentapp_energy_priceid === props.energy_priceid); //get edited object
         }
     }
 
@@ -64,13 +66,13 @@ class Read extends Component {
     }
 
     clickMeHandle = () => {
-        if (this.state.rentapp_readid === '') {
+        if (this.state.rentapp_energy_priceid === '') {
 
-            //NEW READ
-            log.debug("NEW READ")
+            //NEW energy_price
+            log.debug("NEW ENERGY PRICE")
 
-            this.setState({ 'rentapp_readid': uniqueid.getUniqueid() }) //generate unique id
-            store.get().apirentapp_reads.unshift(this.state) //add new record to store
+            this.setState({ 'rentapp_energy_priceid': uniqueid.getUniqueid() }) //generate unique id
+            store.get().apirentapp_energy_prices.unshift(this.state) //add new record to store
             
             // let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_read/' + this.state.rentapp_readid; //call API - create url
             // log.debug(inserturl);
@@ -88,25 +90,28 @@ class Read extends Component {
 
         } else {
 
-            //UPDATE READ
-            log.debug("UPDATE READ")
+            //UPDATE energy_price
+            log.debug("UPDATE ENERGY PRICE")
             
-            let idx = store.get().apirentapp_reads.findIndex(x => x.rentapp_readid === this.state.rentapp_readid) //get index of record in store
-            store.get().apirentapp_reads[idx].set(this.state) //update store
+            let idx = store.get().apirentapp_energy_prices.findIndex(x => x.rentapp_energy_priceid === this.state.rentapp_energy_priceid) //get index of record in store
+            store.get().apirentapp_energy_prices[idx].set(this.state) //update store
 
         }
 
-        let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_read/' + this.state.rentapp_readid; //call API - create url
+        let inserturl = config.apihost + ':' + config.apiport + '/api/rentapp_energy_prices/' + this.state.rentapp_energy_priceid; //call API - create url
         log.debug(inserturl);
         Auth.fetch(inserturl, { //call API - POST
             method: 'POST',
             body: JSON.stringify({
                 dt: this.state.dt,
-                cw: this.state.cw,
-                zw: this.state.zw,
-                prad: this.state.prad,
-                prad_oplata: this.state.prad_oplata,
-                stat: this.state.stat,
+                sieciowastala: this.state.sieciowastala,  
+                sieciowazmienna: this.state.sieciowazmienna,  
+                jakosciowa: this.state.jakosciowa,  
+                przejsciowa: this.state.przejsciowa,  
+                abonament: this.state.abonament,  
+                saleszmienna: this.state.saleszmienna,  
+                salesstala: this.state.salesstala,  
+                rentapp_energy_priceid: this.state.rentapp_energy_priceid,
                 contextid: this.state.contextid,
             })
         })
@@ -164,6 +169,7 @@ class Read extends Component {
     render() {
         return (<Page hideToolbarOnScroll hideNavbarOnScroll >
                     <Navbar title={labels.en.readtitle} backLink={labels.en.back} />
+
                     <List form>
                         <ListInput
                             label={labels.en.dt}
@@ -176,71 +182,105 @@ class Read extends Component {
                             }
                         />
                         <ListInput
-                            label={labels.en.readcw}
+                            label={labels.en.EnergyPricesieciowastala}
                             type="text"
                             required validate pattern="[0-9]*\.?[0-9]+"
-                            clearButton defaultValue={this.state.cw}
+                            clearButton defaultValue={this.state.sieciowastala}
                             onInput={
                                 (e) => {
-                                    this.setState({ 'cw': e.target.value })
+                                    this.setState({ 'sieciowastala': e.target.value })
                                 }
                             }
                         />
                         <ListInput
-                            label={labels.en.readzw}
+                            label={labels.en.WaterPricesieciowazmienna}
                             type="text"
                             required validate pattern="[0-9]*\.?[0-9]+"
-                            clearButton defaultValue={this.state.zw}
+                            clearButton defaultValue={this.state.sieciowazmienna}
                             onInput={
                                 (e) => {
-                                    this.setState({ 'zw': e.target.value })
+                                    this.setState({ 'sieciowazmienna': e.target.value })
                                 }
                             }
                         />
                         <ListInput
-                            label={labels.en.readprad}
+                            label={labels.en.WaterPricejakosciowa}
                             type="text"
                             required validate pattern="[0-9]*\.?[0-9]+"
-                            clearButton defaultValue={this.state.prad}
+                            clearButton defaultValue={this.state.jakosciowa}
                             onInput={
                                 (e) => {
-                                    this.setState({ 'prad': e.target.value })
+                                    this.setState({ 'jakosciowa': e.target.value })
                                 }
                             }
                         />
                         <ListInput
-                            disabled={!Auth.isAuthorized('Read:edit')}
-                            label={labels.en.statuslabel}
-                            type='select'
-                            defaultValue={this.state.stat}
-                            placeholder={labels.en.selectlabel}
+                            label={labels.en.WaterPriceprzejsciowa}
+                            type="text"
+                            required validate pattern="[0-9]*\.?[0-9]+"
+                            clearButton defaultValue={this.state.przejsciowa}
                             onInput={
                                 (e) => {
-                                    this.setState({ 'stat': e.target.value })
+                                    this.setState({ 'przejsciowa': e.target.value })
                                 }
                             }
-                        >
-                            <option value='paid' > {labels.en.paid} </option>
-                            <option value='due' > {labels.en.due} </option>
-                            <option value='wymiana' > {labels.en.wymiana} </option>
-                            <option value='tocalculate' > {labels.en.tocalculate} </option>
-                            <option value='-' > {labels.en.poczatkowy} </option>
-                            
-                        </ListInput>
-                        {Auth.isAuthorized('Read:edit') &&
+                        />
+                        <ListInput
+                            label={labels.en.WaterPriceabonament}
+                            type="text"
+                            required validate pattern="[0-9]*\.?[0-9]+"
+                            clearButton defaultValue={this.state.abonament}
+                            onInput={
+                                (e) => {
+                                    this.setState({ 'abonament': e.target.value })
+                                }
+                            }
+                        />                       
+                        <ListInput
+                            label={labels.en.WaterPricesaleszmienna}
+                            type="text"
+                            required validate pattern="[0-9]*\.?[0-9]+"
+                            clearButton defaultValue={this.state.saleszmienna}
+                            onInput={
+                                (e) => {
+                                    this.setState({ 'saleszmienna': e.target.value })
+                                }
+                            }
+                        />
+                        <ListInput
+                            label={labels.en.WaterPricesalesstala}
+                            type="text"
+                            required validate pattern="[0-9]*\.?[0-9]+"
+                            clearButton defaultValue={this.state.salesstala}
+                            onInput={
+                                (e) => {
+                                    this.setState({ 'salesstala': e.target.value })
+                                }
+                            }
+                        />
+                        <ListInput
+                            label={labels.en.WaterPricesaleszmienna}
+                            type="text"
+                            required validate pattern="[0-9]*\.?[0-9]+"
+                            clearButton defaultValue={this.state.saleszmienna}
+                            onInput={
+                                (e) => {
+                                    this.setState({ 'saleszmienna': e.target.value })
+                                }
+                            }
+                        />
                         <ListInput label={labels.en.contextid}
                             type='text'
                             disabled
                             value={this.state.contextid}
-                        />}
-                        {Auth.isAuthorized('Read:edit') &&
+                        />
                         <ListInput label={labels.en.id}
                             type='text'
                             disabled
-                            value={this.state.rentapp_readid}
-                        />}
+                            value={this.state.rentapp_energy_priceid}
+                        />
                     </List>
-                    {Auth.isAuthorized('Read:edit') &&
+                    {Auth.isAuthorized('EnergyPrice:edit') &&
                     <List>
                         <ListButton onClick={this.clickMeHandle} > {labels.en.ok} </ListButton>
                     </List> 
@@ -250,4 +290,4 @@ class Read extends Component {
     }
 }
 
-export default Read;
+export default EnergyPrice;

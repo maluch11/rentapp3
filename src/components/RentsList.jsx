@@ -16,7 +16,7 @@ class RentsList extends Component {
         
         if(store.get().rentslist === undefined){
             // SET EMPTY/DUMMY rentlist store
-            store.get().set('rentslist', [
+            store.get().set('apirentapp_rents', [
                         {
                             dt: '',
                             kwota: 0,
@@ -57,7 +57,9 @@ class RentsList extends Component {
     getRentsListFromAPI = () => {
         this.$f7.preloader.show(); //preloader show - working way
         
-        const selecturl = config.apihost + ':' + config.apiport + '/api/rentapp_rents/';
+        const apiurl = '/api/rentapp_rents/contextid/'+store.get().selected_contextid;
+
+        const selecturl = config.apihost + ':' + config.apiport + apiurl;
         log.debug(selecturl); //creting url
         
         return Auth.fetch(selecturl, {
@@ -77,14 +79,14 @@ class RentsList extends Component {
                         });
                         
                         // STORE UPDATE IF NOT EQUAL
-                        store.get().set('rentslist', r);
+                        store.get().set('apirentapp_rents', r);
                     }
                     this.$f7.preloader.hide();
                     return Promise.resolve(res);
                 },
                 (error) => {
                     // SET EMPTY/DUMMY rentlist store
-                    store.get().set('rentslist', [
+                    store.get().set('apirentapp_rents', [
                         {
                             dt: '',
                             kwota: 0,
@@ -115,25 +117,27 @@ class RentsList extends Component {
                 <Navbar title={labels.en.rentslisttitle} backLink={labels.en.back} />
                 
                 <List mediaList virtualList
-                    virtualListParams={{ items: store.get().rentslist, height: this.$theme.ios ? 63 : 73}}>
+                    virtualListParams={{ items: store.get().apirentapp_rents, height: this.$theme.ios ? 63 : 73}}>
                     <ul>
-                        {store.get().rentslist.map((item, index) => (
+                        {store.get().apirentapp_rents.map((item, index) => (
                             <ListItem
                                 key={index}
                                 mediaItem
-                                link={'/rent/'+item.rentapp_rentid}
-                                title={<Input type='date' value={this.dtformat(item.dt)} disabled />}
+                                link={Auth.isAuthorized('Rent:visit') ? '/rent/'+item.rentapp_rentid : '#'}
+                                header={<Input type='date' value={this.dtformat(item.dt)} disabled />}
                                 badge={item.stat==='paid' ? labels.en.paid : labels.en.due}
                                 badgeColor={item.stat==='paid' ? 'green' : 'red'}
-                                subtitle={item.kwota}
+                                title={item.kwota+' PLN'}
                             />
                         ))}
                     </ul>
                 </List>
                 
+                {Auth.isAuthorized('Rent:edit') && 
                 <Fab position="center-bottom" slot="fixed" color="blue" href='/rent/'>
                     <Icon ios="f7:add" md="material:add"></Icon>
                 </Fab>
+                }
             </Page>
         );
     }

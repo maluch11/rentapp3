@@ -31,7 +31,7 @@ export default class AuthService {
     isLogged = () => {
         // Checks if there is a saved token and it's still valid
         const token = this.getToken(); // Getting token from store
-        log.debug('AuthService.isLogged: ' + token !== '' && token !== undefined && !!token && !this.isTokenExpired(token));
+        // log.debug('AuthService.isLogged: ' + token !== '' && token !== undefined && !!token && !this.isTokenExpired(token));
         return token !== '' && token !== undefined && !!token && !this.isTokenExpired(token); // handwaiving here
     }
 
@@ -87,8 +87,10 @@ export default class AuthService {
     }
 
     handleLogin = (username, password) => {
-        const self = this;
-        const router = self.$f7router;
+        // const self = this;
+        // const router = self.$f7router;
+        // const self = this;
+        // const router = self.$f7router;
         
         // Get a token from api server using the fetch api
         let url1 = `${this.domain}/authenticate`;
@@ -102,9 +104,10 @@ export default class AuthService {
             })
         }).then(res => {
             this.setToken(res.token);
-            router.back();
-        }).catch(() => {
-            log.debug("error");
+            this.getContextListForLoggedInUser(); //get contexts for the user who is logged in (context = flat)
+            // router.navigate('/');
+        }).catch((e) => {
+            log.debug("AuthService.handlelogin.error"+e);
         });
     }
 
@@ -182,4 +185,42 @@ export default class AuthService {
         return false;
     };
 
+    // emptyContextsArray = () => {
+    //     let emptyListElement = [{
+    //             rentapp_users_contextid: '',
+    //             userlogin: '',
+    //             contextid: 'error',
+    //             userid:''
+    //     }];
+    //     return emptyListElement;
+    // }
+    /** Get from API and run subfetch function while API call is finalized */
+    getContextListForLoggedInUser = () => {
+        // this.$f7.preloader.show(); //preloader show - working way
+        const selecturl = config.apihost + ':' + config.apiport + '/api/rentapp_users_contexts/userid/'+this.getProfile().userid; //ex. apiurl = /api/rentapp_reads/
+        log.debug(selecturl); //creting url
+        
+        return this.fetch(selecturl, {
+            method: 'GET',
+        })
+            .then(
+                (res) => {
+                    if (res.meta.success === true){
+                        let r = res.data;
+                        log.debug(r);
+                        //TODO: STORE UPDATE IF NOT EQUAL
+                        store.get().set('apirentapp_users_contexts', r); //update store with processed value
+                        store.get().set('selected_contextid', r[0].contextid);
+                    }
+                    // this.$f7.preloader.hide();
+                    return Promise.resolve(res);
+                },
+                (error) => {
+                    store.get().set('apirentapp_users_contexts', this.emptyContextsArray);
+                    log.debug('apirentapp_users_contexts-'+'.ERROR: ' + error.message);
+                    // this.$f7.preloader.hide();
+                    return false;
+                }
+            )
+    }
 }

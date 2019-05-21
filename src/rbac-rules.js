@@ -1,13 +1,36 @@
 const rules = {
     admin: {
       static: [
-          "EnergyPrices:visit", 
+
           "Home:visit",
           "ReadsList:visit",
           "Read:visit",
-          "Read:edit"
+          "Read:edit",
+
+          "Rent:visit",
+          "Rent:edit",
+          "RentsList:visit",
+
+          "EnergyPricesList:visit", 
+          "EnergyPrice:edit",
+          "WaterPricesList:visit",
+          "WaterPrice:edit",
+
+          "Context:edit",
+
         ]
     },
+
+    tenant: {
+        static: [
+        "Home:visit",
+        "ReadsList:visit",
+        "Read:visit",
+        "RentsList:visit",
+        "Rent:visit",
+      ]
+    },
+
     manager: {
       static: [
         "posts:list",
@@ -22,13 +45,6 @@ const rules = {
           return userId === postOwnerId;
         }
       }
-    },
-    tenant: {
-        static: [
-        "EnergyPrices:visit",
-        "ReadsList:visit",
-        "Read:visit",
-        "Home:visit"]
     }
   };
   

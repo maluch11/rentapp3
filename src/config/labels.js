@@ -13,6 +13,11 @@ module.exports = {
         'logininfo': 'Problemy z zalogowaniem? Zadzwon do wlasciciela mieszkania.',
         'loginbt': 'Zaloguj',
         'id': 'ID',
+        'contextid': 'Kontekst',
+        'menufooter' : 'Wybierz opcje aby zobaczyc historie czynszow lub odczytow',
+
+        //HOME
+        'homerefresh' : 'Pobierz',
 
         
         //STATUS
