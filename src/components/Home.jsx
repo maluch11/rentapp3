@@ -16,10 +16,9 @@ let refreshNo = 0;
 const Auth = new AuthService(); // Authentication service
 const log = Logger({level: config.loglevel}); // Logger
 class Home extends Component {
-    constructor(props) {
-        super(props);
-        log.debug('Home.constructor');
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
     
     componentWillMount() {
         
@@ -30,7 +29,8 @@ class Home extends Component {
         store.on('update', function(){ me.forceUpdate(); Auth.saveToLocalStorage();}); // RE-RENDER component if store updated 
 
         //everything happening here is before authentication
-        log.debug('home.componentDidMount');
+        // log.debug('home.componentDidMount');
+        if(!Auth.isLogged()) this.navigateLogin();
     }
     
     componentWillReceiveProps(nextProps) {

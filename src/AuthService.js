@@ -86,15 +86,12 @@ export default class AuthService {
         localStorage.setItem('rentapp3store', JSON.stringify(store.get()));
     }
 
-    handleLogin = (username, password) => {
-        // const self = this;
-        // const router = self.$f7router;
-        // const self = this;
-        // const router = self.$f7router;
+    handleLogin = (username, password, self) => {
+        const router = self.$f7router; // get router
         
         // Get a token from api server using the fetch api
         let url1 = `${this.domain}/authenticate`;
-        log.debug(url1);
+        log.debug('handleLogin, '+url1);
         
         return this.fetch(url1, {
             method: 'POST',
@@ -105,9 +102,9 @@ export default class AuthService {
         }).then(res => {
             this.setToken(res.token);
             this.getContextListForLoggedInUser(); //get contexts for the user who is logged in (context = flat)
-            // router.navigate('/');
+            router.navigate('/'); //navigate to home
         }).catch((e) => {
-            log.debug("AuthService.handlelogin.error"+e);
+            log.debug("AuthService.handlelogin.error: "+e);
         });
     }
 

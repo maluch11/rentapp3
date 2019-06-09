@@ -55,14 +55,14 @@ export default class extends React.Component {
     signIn() {
         const self = this;
         //todo call-authorize-endpoint, if response 200 then save token and profile in store and set isLogged in store
-        this.handleLogin(self.state.username, self.state.password);
+        this.handleLogin(self.state.username, self.state.password, self);
     }
     
-    handleLogin = (username, password) => {
-        const self = this;
-        const router = self.$f7router;
-        Auth.handleLogin(username, password);
-        router.navigate('/');
+    handleLogin = (username, password, self) => {
+        // const self = this;
+        // const router = self.$f7router;
+        Auth.handleLogin(username, password, self);
+        // router.navigate('/');
     }
 
     isLogged = () => {

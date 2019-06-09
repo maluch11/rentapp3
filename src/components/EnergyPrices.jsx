@@ -65,7 +65,7 @@ class EnergyPrices extends Component {
     getListFromAPI = () => {
         this.$f7.preloader.show(); //preloader show - working way
         
-        const selecturl = config.apihost + ':' + config.apiport + '/api/rentapp_energy_prices/'; //creting url
+        const selecturl = config.apihost + ':' + config.apiport + '/api/rentapp_energy_prices/'+'contextid/'+store.get().selected_contextid; //creting url
         log.debug(selecturl); 
         
         return Auth.fetch(selecturl, {
