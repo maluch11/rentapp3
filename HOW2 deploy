@@ -1,0 +1,5 @@
+!! Change API in config.js file before building
+
+1) Terminal
+2) npm run-script build
+3) files from "build" catalog copy to server
